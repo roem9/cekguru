@@ -11,7 +11,7 @@ class Kelas extends CI_CONTROLLER{
     }
 
     public function input(){
-        $peserta = $this->Admin_model->get_all("kelas_user", ["id_kelas" => "1", "id_user" => "11"]);
+        $peserta = $this->Admin_model->get_all("kelas_user", ["id_kelas" => "1"]);
         foreach ($peserta as $peserta) {
             for ($i=1; $i < 25; $i++) { 
                 $pertemuan = "Pertemuan ".$i;
