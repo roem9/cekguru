@@ -20,7 +20,7 @@ class Kelas extends CI_CONTROLLER{
                     "id_user" => $peserta['id_user'],
                     "pertemuan" => $pertemuan,
                     "latihan" => "Harian",
-                    "nilai" => 100,
+                    "nilai" => rand(50,100),
                 ];
 
                 $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -33,7 +33,7 @@ class Kelas extends CI_CONTROLLER{
                     "id_user" => $peserta['id_user'],
                     "pertemuan" => $pertemuan,
                     "latihan" => "Hafalan",
-                    "nilai" => 100,
+                    "nilai" => rand(50,100),
                 ];
 
                 $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -46,7 +46,7 @@ class Kelas extends CI_CONTROLLER{
                     "id_user" => $peserta['id_user'],
                     "pertemuan" => $pertemuan,
                     "latihan" => "Tambahan",
-                    "nilai" => 100,
+                    "nilai" => rand(50,100),
                 ];
 
                 $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -59,7 +59,7 @@ class Kelas extends CI_CONTROLLER{
                     "id_user" => $peserta['id_user'],
                     "pertemuan" => $pertemuan,
                     "latihan" => "Form",
-                    "nilai" => 100,
+                    "nilai" => rand(50,100),
                 ];
 
                 $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -72,7 +72,7 @@ class Kelas extends CI_CONTROLLER{
                     "id_user" => $peserta['id_user'],
                     "pertemuan" => $pertemuan,
                     "latihan" => "Input",
-                    "nilai" => 100,
+                    "nilai" => rand(50,100),
                 ];
 
                 $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -84,7 +84,7 @@ class Kelas extends CI_CONTROLLER{
                 "id_user" => $peserta['id_user'],
                 "pertemuan" => "Ujian Pertengahan",
                 "latihan" => "Input",
-                "nilai" => 100,
+                "nilai" => rand(50,100),
             ];
 
             $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -94,7 +94,7 @@ class Kelas extends CI_CONTROLLER{
                 "id_user" => $peserta['id_user'],
                 "pertemuan" => "Ujian Akhir",
                 "latihan" => "Form",
-                "nilai" => 100,
+                "nilai" => rand(50,100),
             ];
 
             $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -104,7 +104,7 @@ class Kelas extends CI_CONTROLLER{
                 "id_user" => $peserta['id_user'],
                 "pertemuan" => "Ujian Akhir",
                 "latihan" => "Input",
-                "nilai" => 100,
+                "nilai" => rand(50,100),
             ];
 
             $this->Admin_model->add_data("latihan_hifdzi_1", $data);
@@ -161,6 +161,10 @@ class Kelas extends CI_CONTROLLER{
                 $detail = $this->Admin_model->get_one("user", ["id_user" => $peserta['id_user']]);
                 $data['peserta'][$i] = $detail;
             }
+            
+            usort($data['peserta'], function($a, $b) {
+                return $a['nama'] <=> $b['nama'];
+            });
         // }
 
         echo json_encode($data);
@@ -199,7 +203,7 @@ class Kelas extends CI_CONTROLLER{
             if(!isset($hadir)){
                 $detail = $this->Admin_model->get_one("user", ["id_user" => $peserta['id_user']]);
                 $data['absen'][$i] = $detail;
-                $data['absen'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=Anda%20belum%20mengisi%20kehadiran%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan)."%2C%20silahkan%20isi%20kehadiran%20sebelum%20jam%2021%3A00%20melalui%20member%20area%20pada%20link%20".base_url();
+                $data['absen'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=Anda%20belum%20mengisi%20kehadiran%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan)."%2C%20silahkan%20mengisi%20kehadiran%20Anda%20segera%20melalui%20member%20area%20pada%20link%20cekmember.mrscholae.com";
             }
         }
 
@@ -237,6 +241,10 @@ class Kelas extends CI_CONTROLLER{
                 $i++;
             }
         }
+        
+        usort($data['latihan'], function($a, $b) {
+            return $a['nama'] <=> $b['nama'];
+        });
 
         echo json_encode($data);
     }
@@ -408,6 +416,10 @@ class Kelas extends CI_CONTROLLER{
                     $data['peserta'][$i]['nilai'] = 0;
                 }
             }
+
+            usort($data['peserta'], function($a, $b) {
+                return $a['nama'] <=> $b['nama'];
+            });
 
             echo json_encode($data);
         }
