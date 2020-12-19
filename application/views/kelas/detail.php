@@ -980,7 +980,7 @@
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div class="">
                                             <a href="#modalSertifikat" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-primary sertifikat"><i class="fa fa-award"></i></a>
-                                            <a href="#modalDetail" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-success detail"><i class="fa fa-flag"></i></a>
+                                            <a href="#modalDetail" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-success detail"><i class="fa fa-book"></i></a>
                                         </div>
                                         <span>
                                             <a href="#" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-outline-info notifikasi"><i class="fa fa-comment"></i></a>
