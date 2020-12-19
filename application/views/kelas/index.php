@@ -305,18 +305,33 @@
                         data.kelas.forEach(kelas => {
                             html += `<div class="col-12 col-md-4 mb-2">
                                         <ul class="list-group shadow">
-                                            <li class="list-group-item list-group-item-success"><i class="fa fa-book mr-2"></i><strong>`+kelas.nama_kelas+`</strong></li>
-                                            <li class="list-group-item"><i class="fa fa-users mr-2"></i>`+kelas.peserta+` Orang</li>
-                                            <li class="list-group-item">Pertemuan `+kelas.pertemuan+`</li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <div class="">
-                                                    <a href="#modalSertifikat" data-id="`+kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-secondary sertifikat mr-1"><i class="fa fa-award"></i></a>
-                                                    <a href="#modalDetail" data-id="`+kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-success detail"><i class="fa fa-flag"></i></a>
-                                                </div>
-                                                <a href="<?= base_url()?>kelas/detail/`+kelas.link+`" class="btn btn-sm btn-info">detail</a>
+                                            <li class="list-group-item list-group-item-success d-flex justify-content-between">
+                                                <span>
+                                                    <strong>`+kelas.nama_kelas+`</strong>
+                                                </span>
+                                                <span>
+                                                    <a href="<?= base_url()?>kelas/detail/`+kelas.link+`" class="btn btn-sm btn-info"><i class="fa fa-sign-in-alt"></i></a>
+                                                </span>
                                             </li>
+                                            <li class="list-group-item"><i class="fa fa-users mr-2"></i>`+kelas.peserta+` Orang</li>
+                                            <li class="list-group-item"><i class="fa fa-book mr-2"></i> Pertemuan `+kelas.pertemuan+`</li>
                                         </ul>
                                     </div>`;
+                                    
+                            // html += `<div class="col-12 col-md-4 mb-2">
+                            //             <ul class="list-group shadow">
+                            //                 <li class="list-group-item list-group-item-success"><i class="fa fa-book mr-2"></i><strong>`+kelas.nama_kelas+`</strong></li>
+                            //                 <li class="list-group-item"><i class="fa fa-users mr-2"></i>`+kelas.peserta+` Orang</li>
+                            //                 <li class="list-group-item">Pertemuan `+kelas.pertemuan+`</li>
+                            //                 <li class="list-group-item d-flex justify-content-between">
+                            //                     <div class="">
+                            //                         <a href="#modalSertifikat" data-id="`+kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-secondary sertifikat mr-1"><i class="fa fa-award"></i></a>
+                            //                         <a href="#modalDetail" data-id="`+kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-success detail"><i class="fa fa-flag"></i></a>
+                            //                     </div>
+                            //                     <a href="<?= base_url()?>kelas/detail/`+kelas.link+`" class="btn btn-sm btn-info">detail</a>
+                            //                 </li>
+                            //             </ul>
+                            //         </div>`;
                         });
                     } else {
                         html = `<div class="col-12">

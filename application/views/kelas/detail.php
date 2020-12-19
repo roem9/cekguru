@@ -408,6 +408,13 @@
         $("#inputNilai").show();
         $("#dataFaq").hide();
         $("#listPeserta").hide();
+
+        $(".inputNilai").addClass("btn-info");
+        $(".inputNilai").addClass("text-light");
+        $(".notifikasi").removeClass("btn-info");
+        $(".notifikasi").removeClass("text-light");
+        $(".faq").removeClass("btn-info");
+        $(".faq").removeClass("text-light");
     })
     
     $("#dataKelas").on("click", ".notifikasi", function(){
@@ -423,6 +430,13 @@
         $("#titleForm").hide();
         $("#dataFaq").hide();
         $("#listPeserta").hide();
+
+        $(".inputNilai").removeClass("btn-info");
+        $(".inputNilai").removeClass("text-light");
+        $(".notifikasi").addClass("btn-info");
+        $(".notifikasi").addClass("text-light");
+        $(".faq").removeClass("btn-info");
+        $(".faq").removeClass("text-light");
     })
     
     $("#dataKelas").on("click", ".faq", function(){
@@ -438,6 +452,13 @@
         $("#titleForm").hide();
         $("#dataFaq").show();
         $("#listPeserta").hide();
+
+        $(".inputNilai").removeClass("btn-info");
+        $(".inputNilai").removeClass("text-light");
+        $(".notifikasi").removeClass("btn-info");
+        $(".notifikasi").removeClass("text-light");
+        $(".faq").addClass("btn-info");
+        $(".faq").addClass("text-light");
     })
     
     $("#dataKelas").on("click", "#btnDataPeserta", function(){
@@ -453,6 +474,13 @@
         $("#titleForm").hide();
         $("#dataFaq").hide();
         $("#listPeserta").show();
+
+        $(".inputNilai").removeClass("btn-info");
+        $(".inputNilai").removeClass("text-light");
+        $(".notifikasi").removeClass("btn-info");
+        $(".notifikasi").removeClass("text-light");
+        $(".faq").removeClass("btn-info");
+        $(".faq").removeClass("text-light");
     })
     
     $("#btnInputNilai").click(function(){
@@ -934,22 +962,31 @@
                     let html = "";
                     html += `<div class="col-12 col-md-4 mb-2">
                                 <ul class="list-group shadow">
-                                    <li class="list-group-item list-group-item-success"><i class="fa fa-book mr-2"></i><strong>`+data.kelas.nama_kelas+`</strong></li>
+                                    <li class="list-group-item list-group-item-success d-flex justify-content-between">
+                                        <span>
+                                            <strong>`+data.kelas.nama_kelas+`</strong>
+                                        </span>
+                                        <span>
+                                            <a href="<?= base_url()?>kelas" class="btn btn-sm btn-danger"><i class="fa fa-sign-out-alt"></i></a>
+                                        </span>
+                                    </li>
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div class="">
                                             <i class="fa fa-users mr-2"></i>`+data.kelas.peserta+` Orang
                                         </div>
                                         <a href="#" class="btn btn-sm btn-warning text-light" id="btnDataPeserta"><i class="fa fa-users"></i></a>
                                     </li>
-                                    <li class="list-group-item">Pertemuan `+data.kelas.pertemuan.length+`</li>
+                                    <li class="list-group-item"><i class="fa fa-book mr-2"></i>Pertemuan `+data.kelas.pertemuan.length+`</li>
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div class="">
-                                            <a href="#modalSertifikat" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-secondary sertifikat"><i class="fa fa-award"></i></a>
+                                            <a href="#modalSertifikat" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-primary sertifikat"><i class="fa fa-award"></i></a>
                                             <a href="#modalDetail" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-success detail"><i class="fa fa-flag"></i></a>
-                                            <a data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-danger text-light notifikasi"><i class="fa fa-comment"></i></a>
-                                            <a data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-info text-light faq">FAQ</a>
                                         </div>
-                                            <a data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-info text-light inputNilai">input nilai</a>
+                                        <span>
+                                            <a href="#" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-outline-info notifikasi"><i class="fa fa-comment"></i></a>
+                                            <a href="#" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-outline-info faq">FAQ</a>
+                                            <a href="#" data-id="`+data.kelas.id_kelas+`" data-toggle="modal" class="btn btn-sm btn-outline-info inputNilai">input nilai</a>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>`;
@@ -1028,8 +1065,12 @@
 
                         html += `
                             <li class="list-group-item d-flex justify-content-between">
-                                `+peserta.nama+`
-                                <a href="#" class="btn btn-sm `+button+`" id="`+sertifikat+`" data-id="`+peserta.id_sertifikat+`"><i class="fa fa-award"></i></a>
+                                <span>
+                                    `+peserta.nama+`<br><span class="btn btn-sm btn-outline-dark">`+peserta.nilai+`</span>
+                                </span>
+                                <span>
+                                    <a href="#" class="btn btn-sm `+button+`" id="`+sertifikat+`" data-id="`+peserta.id_sertifikat+`"><i class="fa fa-award"></i></a>
+                                </span>
                             </li>
                         `;
                     });

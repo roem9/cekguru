@@ -156,6 +156,7 @@ class Kelas extends CI_CONTROLLER{
             $data['kelas']['link'] = $id_kelas;
             $data['faq'] = $this->Admin_model->get_all("faq", ["md5(id_kelas)" => $id_kelas]);
 
+            $data['peserta'] = [];
             $peserta = $this->Admin_model->get_all("kelas_user", ["md5(id_kelas)" => $id_kelas]);
             foreach ($peserta as $i => $peserta) {
                 $detail = $this->Admin_model->get_one("user", ["id_user" => $peserta['id_user']]);
@@ -428,11 +429,13 @@ class Kelas extends CI_CONTROLLER{
             $id_kelas = $this->input->post("id_kelas");
 
             $data['kelas'] = $this->Admin_model->get_one("kelas", ["id_kelas" => $id_kelas]);
+            $data['peserta'] = [];
             $peserta = $this->Admin_model->get_all("kelas_user", ["id_kelas" => $id_kelas]);
             foreach ($peserta as $i => $peserta) {
                 $data['peserta'][$i] = $this->Admin_model->get_one("user", ["id_user" => $peserta['id_user']]);
                 $data['peserta'][$i]['sertifikat'] = $peserta['sertifikat'];
                 $data['peserta'][$i]['id_sertifikat'] = $peserta['id'];
+                $data['peserta'][$i]['nilai'] = $this->nilai_sertifikat($id_kelas, $peserta['id_user']);
             }
 
             usort($data['peserta'], function($a, $b) {
@@ -442,6 +445,88 @@ class Kelas extends CI_CONTROLLER{
             echo json_encode($data);
         }
     // get 
+
+    // nilai syahadah 
+        public function nilai_sertifikat($id_kelas, $id_user){
+            // nilai form harian
+                $nilai_harian_form = 0;
+                $nilai = $this->Admin_model->get_all("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "latihan" => "Harian"]);
+                foreach ($nilai as $nilai) {
+                    $nilai_harian_form += $nilai['nilai'];
+                }
+
+                $data['nilai_harian_form'] = ($nilai_harian_form / 24) * 0.1;
+            // nilai form harian
+            
+            // nilai hafalan harian
+                $nilai_harian_hafalan = 0;
+                $nilai = $this->Admin_model->get_all("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "latihan" => "Hafalan"]);
+                foreach ($nilai as $nilai) {
+                    $nilai_harian_hafalan += $nilai['nilai'];
+                }
+
+                $data['nilai_harian_hafalan'] = ($nilai_harian_hafalan / 24) * 0.3;
+            // nilai hafalan harian
+            
+            // nilai tambahan harian
+                $nilai_harian_tambahan = 0;
+                $nilai = $this->Admin_model->get_all("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "latihan" => "Tambahan"]);
+                foreach ($nilai as $nilai) {
+                    $nilai_harian_tambahan += $nilai['nilai'];
+                }
+
+                $data['nilai_harian_tambahan'] = ($nilai_harian_tambahan / 24) * 0.1;
+            // nilai tambahan harian
+
+            // nilai ujian pekanan
+                $nilai_ujian_pekanan = 0;
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 1", "latihan" => "Form"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 2", "latihan" => "Form"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 3", "latihan" => "Form"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 4", "latihan" => "Form"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 1", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 2", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 3", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pekan 4", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_pekanan += $nilai['nilai'];
+
+                $data['nilai_ujian_pekanan'] = ($nilai_ujian_pekanan / 8) * 0.2;
+            // nilai ujian pekanan
+
+            // nilai ujian pertengahan
+                $nilai_ujian_pertengahan = 0;
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Pertengahan", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_pertengahan += $nilai['nilai']; 
+
+                $data['nilai_ujian_pertengahan'] = ($nilai_ujian_pertengahan / 1) * 0.15;
+            // nilai ujian pertengahan
+            
+            // nilai ujian akhir
+                $nilai_ujian_akhir = 0;
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Akhir", "latihan" => "Form"]);
+                if($nilai) $nilai_ujian_akhir += $nilai['nilai'];
+                $nilai = $this->Admin_model->get_one("latihan_hifdzi_1", ["id_kelas" => $id_kelas, "id_user" => $id_user, "pertemuan" => "Ujian Akhir", "latihan" => "Input"]);
+                if($nilai) $nilai_ujian_akhir += $nilai['nilai'];
+
+                $data['nilai_ujian_akhir'] = ($nilai_ujian_akhir / 2) * 0.15;
+            // nilai ujian akhir
+            $data['nilai'] = $data['nilai_harian_form'] + $data['nilai_harian_hafalan'] + $data['nilai_harian_tambahan'] + $data['nilai_ujian_pekanan'] + $data['nilai_ujian_pertengahan'] + $data['nilai_ujian_akhir'];
+
+            if($data['nilai'] >= 80 && $data['nilai'] <= 100) $data['nilai'] = "ممتاز";
+            else if($data['nilai'] >= 60 && $data['nilai'] < 80) $data['nilai'] = "جيد جدا";
+            else if($data['nilai'] >= 40 && $data['nilai'] < 60) $data['nilai'] = "جيد";
+            else if($data['nilai'] >= 20 && $data['nilai'] < 40) $data['nilai'] = "ناقص";
+            else if($data['nilai'] >= 0 && $data['nilai'] < 20) $data['nilai'] = "فاشل";
+
+            return $data['nilai'];
+        }
 
     // sertifikat 
         public function add_sertifikat(){

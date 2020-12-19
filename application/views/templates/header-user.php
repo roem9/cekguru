@@ -63,7 +63,6 @@
             </div>
             <a href="<?= base_url()?>profil" class="list-group-item list-group-item-action <?php if($title == 'Profil'){echo 'bg-primary text-light';}else{echo 'bg-light text-dark';}?>"><i class="fa fa-user mr-3"></i>Profil</a>
             <a href="<?= base_url()?>kelas" class="list-group-item list-group-item-action <?php if($title == 'List Kelas'){echo 'bg-primary text-light';}else{echo 'bg-light text-dark';}?>"><i class="fa fa-book mr-3"></i>Kelas</a>
-            <a href="<?= base_url()?>setting" class="list-group-item list-group-item-action <?php if($title == 'Pengaturan'){echo 'bg-primary text-light';}else{echo 'bg-light text-dark';}?>"><i class="fa fa-cog mr-3"></i>Pengaturan</a>
             <a href="<?= base_url()?>login/logout_user" class="list-group-item list-group-item-action" onclick="return confirm('Yakin akan keluar?')"><i class="fa fa-sign-out-alt mr-3"></i>Logout</a>
         </div>
     </nav>
