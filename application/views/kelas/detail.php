@@ -383,6 +383,8 @@
         let latihan = $("#input_latihan").val();
         
         $("#input_pertemuan").val("");
+        $("#dataPeserta").hide();
+        $("#titleForm").hide()
 
         if(latihan == ""){
             $("#input_pertemuan").hide();
@@ -400,6 +402,8 @@
     $("#input_pertemuan").change(function(){
         let latihan = $("#input_latihan").val();
         let pertemuan = $("#input_pertemuan").val();
+        $("#dataPeserta").hide();
+        $("#titleForm").hide()
 
         if(pertemuan != ""){
             $("#btnInputNilai").show();
