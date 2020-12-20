@@ -41,7 +41,7 @@
                         <?php endfor;?>
                     </select>
                 </div>
-                <div class="col-12 d-flex justify-content-end mt-2">
+                <div class="col-12 d-flex justify-content-end mt-2 mb-2">
                     <button class="btn btn-sm btn-success" id="btnInputNilai">Tampilkan Form</button>
                 </div>
             </div>
@@ -376,20 +376,35 @@
     $("#dataFaq").hide();
     // $("#listPeserta").hide();
     $("#dataPertemuan").hide();
+    $("#listPeserta").hide();
     $(".headerForm").hide();
 
-    $("#input_latihan, #input_pertemuan").change(function(){
+    $("#input_latihan").change(function(){
+        let latihan = $("#input_latihan").val();
+        
+        $("#input_pertemuan").val("");
+
+        if(latihan == ""){
+            $("#input_pertemuan").hide();
+            $("#btnInputNilai").hide();
+        } else if(latihan == "Tambahan" || latihan == "Hafalan"){
+            $("#input_pertemuan").show();
+            $("#btnInputNilai").hide();
+        } else if(latihan != "Tambahan" || latihan != "Hafalan"){
+            $("#btnInputNilai").show();
+            $("#input_pertemuan").hide();
+            $("#input_pertemuan").val("");
+        }        
+    })
+    
+    $("#input_pertemuan").change(function(){
         let latihan = $("#input_latihan").val();
         let pertemuan = $("#input_pertemuan").val();
 
-        if(latihan != "" && pertemuan != ""){
+        if(pertemuan != ""){
             $("#btnInputNilai").show();
-        } else if(latihan != "Tambahan" && latihan != "Hafalan"){
-            $("#input_pertemuan").hide()
-            $("#btnInputNilai").show()
         } else {
             $("#btnInputNilai").hide();
-            $("#input_pertemuan").show()
         }
     })
 
@@ -488,8 +503,10 @@
         let pertemuan = $("#input_pertemuan").val()
         
         $("#dataPeserta").show()
-        $("#inputNilai").hide();
-        $(".headerForm").hide();
+        // $("#inputNilai").hide();
+        // $(".headerForm").hide();
+        $("#inputNilai").show();
+        $(".headerForm").show();
         
         $.ajax({
             type: "POST",
