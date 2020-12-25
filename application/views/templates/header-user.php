@@ -48,7 +48,8 @@
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="<?= base_url()?>assets/js/script.js"></script>
-
+    
+    <link rel="icon" href="<?= base_url()?>assets/img/logo.png" type="image/icon type">
     <title><?= $title?></title>
 </head>
 

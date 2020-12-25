@@ -8,6 +8,9 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="p-5">
+								<div class="col-12 d-flex justify-content-center mb-1">
+									<img src="<?= base_url()?>assets/img/logo.png" width="75" class="img-fluid img-shadow">
+								</div>
 								<div class="text-center">
 									<h1 class="h4 text-gray-900 mb-4">أَهْلًا وَ سَهْلًا</h1>
 								</div>

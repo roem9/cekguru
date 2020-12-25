@@ -63,6 +63,7 @@
                         FAQ
                             <a href="#modalFaq" data-toggle="modal"><i class="fa fa-plus-square"></i></a>
                         </li>
+                        <input type="text" name="search_faq" id="search_faq" class="form-control form-control-lg mt-1 mb-1" placeholder="cari faq ..." autocomplete="off">
                         <div id="list-faq"></div>
                     </ul>
                 </div>
@@ -459,6 +460,13 @@
     })
     
     $("#dataKelas").on("click", ".faq", function(){
+        // faq 
+            $("#search_faq").val("")
+            let search = "";
+            let program = "<?= $kelas['program']?>"
+            faq(search, program)
+        // faq 
+        
         $("#dataPeserta").hide();
         delete_msg()
         $(".headerForm").hide();
@@ -685,6 +693,15 @@
             }
         })
     // edit faq 
+
+    // search faq
+        $("#search_faq").on("change paste keyup", function() {
+            let search = $(this).val();
+            let program = "<?= $kelas['program']?>"
+            
+            faq(search, program)
+        });
+    // search faq
 
     $("#dataFaq").on("click", ".editFaq", function(){
         delete_msg();
@@ -1341,6 +1358,34 @@
             })
         }
         
+        function faq(search, program){
+            $.ajax({
+                url: "<?= base_url()?>kelas/search_faq",
+                type: "POST",
+                dataType: "JSON",
+                data: {search: search, program: program},
+                success: function(data){
+                    html = "";
+                    if(data.faq.length != 0){
+                        data.faq.forEach(faq => {
+                            html += `<li class="list-group-item d-flex justify-content-between">
+                                        <span>
+                                            `+faq.soal+`
+                                        </span>
+                                        <span>
+                                            <a href="#modalFaq" data-toggle="modal" data-id="`+faq.id+`" class="detailFaq"><i class="fa fa-question-circle text-info"></i></a>
+                                        </span>
+                                    </li>`
+                        });
+                    } else {
+                        html += `<div class="alert alert-warning"><i class="fa fa-exclamation-circle text-warning"></i> faq tidak ada</div>`;
+                    }
+
+                    $("#list-faq").html(html)       
+                }
+            })
+        }
+
         function btn_1(){
             $("#btn-form-1").addClass('active');
             $("#btn-form-2").removeClass('active');

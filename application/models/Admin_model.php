@@ -49,5 +49,12 @@ class Admin_model extends CI_MODEL{
                 $this->db->group_by($group);
             return $this->db->get()->result_array();
         }
+        
+        public function get_all_like($table, $col, $like, $where){
+            $this->db->from($table);
+            $this->db->like($col, $like);
+            if($where) $this->db->where($where);
+            return $this->db->get()->result_array();
+        }
     // get all data
 }

@@ -154,7 +154,7 @@ class Kelas extends CI_CONTROLLER{
             $data['kelas']['peserta'] = COUNT($this->Admin_model->get_all("kelas_user", ["MD5(id_kelas)" => $id_kelas]));
             $data['kelas']['pertemuan'] = $this->Admin_model->get_all("materi_kelas", ["MD5(id_kelas)" => $id_kelas], "id");
             $data['kelas']['link'] = $id_kelas;
-            $data['faq'] = $this->Admin_model->get_all("faq", ["md5(id_kelas)" => $id_kelas]);
+            $data['faq'] = $this->Admin_model->get_all("faq", ["program" => $data['kelas']['program']]);
 
             $data['peserta'] = [];
             $peserta = $this->Admin_model->get_all("kelas_user", ["md5(id_kelas)" => $id_kelas]);
@@ -578,15 +578,30 @@ class Kelas extends CI_CONTROLLER{
             $id_kelas = $this->input->post("id_kelas");
             $soal = $this->input->post("soal");
             $jawaban = $this->input->post("jawaban");
+            $kelas = $this->Admin_model->get_one("kelas", ["id_kelas" => $id_kelas]);
 
             $data = [
                 "id_kelas" => $id_kelas,
                 "soal" => $soal,
                 "jawaban" => $jawaban,
+                "program" => $kelas['program']
             ];
 
+            $cek = $this->Admin_model->get_one("faq", $data);
             $this->Admin_model->add_data("faq", $data);
             echo json_encode("1");
+        }
+
+        public function search_faq(){
+            $search = $this->input->post("search");
+            $program = $this->input->post("program");
+            $data['faq'] = [];
+            if($search != ""){
+                $data['faq'] = $this->Admin_model->get_all_like("faq", "soal", $search, ["program" => $program]);
+            } else {
+                $data['faq'] = $this->Admin_model->get_all("faq", ["program" => $program]);
+            }
+            echo json_encode($data);
         }
     // faq 
 
@@ -596,9 +611,10 @@ class Kelas extends CI_CONTROLLER{
                 "id_kelas" => $this->input->post("id_kelas"),
                 "materi" => $this->input->post("pertemuan"),
             ];
-            $this->Admin_model->add_data("materi_kelas", $data);
+            $cek = $this->Admin_model->get_one("materi_kelas", $data);
+            if(!$cek) $this->Admin_model->add_data("materi_kelas", $data);
             echo json_encode($data['id_kelas']);
-        } 
+        }
          
 
         public function add_ujian(){
@@ -606,7 +622,8 @@ class Kelas extends CI_CONTROLLER{
                 "id_kelas" => $this->input->post("id_kelas"),
                 "materi" => $this->input->post("pertemuan"),
             ];
-            $this->Admin_model->add_data("ujian_kelas", $data);
+            $cek = $this->Admin_model->get_one("ujian_kelas", $data);
+            if(!$cek) $this->Admin_model->add_data("ujian_kelas", $data);
             echo json_encode($data['id_kelas']);
         }
 
