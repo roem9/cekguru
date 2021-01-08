@@ -192,6 +192,7 @@ class Kelas extends CI_CONTROLLER{
     }
 
     public function ajax_pertemuan(){
+        $link_member = $this->Admin_model->get_one("option", ["field" => "link_member"]);
         $id_kelas = $this->input->post("id_kelas");
         $pertemuan = $this->input->post("pertemuan");
 
@@ -204,7 +205,7 @@ class Kelas extends CI_CONTROLLER{
             if(!isset($hadir)){
                 $detail = $this->Admin_model->get_one("user", ["id_user" => $peserta['id_user']]);
                 $data['absen'][$i] = $detail;
-                $data['absen'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=Anda%20belum%20mengisi%20kehadiran%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan)."%2C%20silahkan%20mengisi%20kehadiran%20Anda%20segera%20melalui%20member%20area%20pada%20link%20cekmember.mrscholae.com";
+                $data['absen'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=*ABSEN*%F0%9F%91%87%0A%0A*tanbih*%0Akak%20".str_replace(" ", "%20", $detail['nama'])."%20belum%20mengisi%20kehadiran%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan)."%2C%20silahkan%20segera%20mengisi%20kehadiran%20kakak%20melalui%20member%20area%20pada%20link%20".$link_member['value'];
             }
         }
 
@@ -237,7 +238,7 @@ class Kelas extends CI_CONTROLLER{
                     $pesan .= "-%20latihan%20tambahan%0A";
                 }
 
-                $data['latihan'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=Anda%20belum%20mengerjakan%20latihan%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan).".%20latihan%20yang%20belum%20Anda%20kerjakan%20adalah%20sebagai%20berikut%20%3A%0A".$pesan;
+                $data['latihan'][$i]['pesan'] = "https://wa.me/62".substr($detail['no_hp'], 1)."?text=*Tugas%2Flatihan*%0A%0A*Tanbih*%0Akk%20".str_replace(" ", "%20", $detail['nama'])."%20belum%20mengerjakan%20latihan%20di%20kelas%20".str_replace("#", "%23", str_replace(" ", "%20", $kelas['nama_kelas']))."%20".str_replace(" ", "%20", $pertemuan).".%20latihan%20yang%20belum%20kakak%20kerjakan%20adalah%20sebagai%20berikut%20%3A%0A".$pesan."silahkan%20untuk%20segera%20dikerjakan%20ya%20kak%F0%9F%98%8A";
 
                 $i++;
             }
